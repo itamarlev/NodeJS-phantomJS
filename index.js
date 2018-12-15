@@ -15,6 +15,24 @@ while(urls[i]){
 }
 
 
+(async function() {
+const instance = await phantom.create();
+const page = await instance.createPage();
+await page.on('onResourceRequested' , function(requestedData){
+    console.info('Requesting', requestedData);
+});
+let status, content;
+while(urls[i]){
+    console.info(urls[i]);
+    status = await page.open(urls[i]);
+    content = await page.property('content');
+    console.log(content);
+    i++;
+}
+await instance.exit();
+})();
+
+
 /*
 
 var test = function( counter , callback){
