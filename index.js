@@ -1,38 +1,57 @@
+//import resources
 const fs = require('fs');
 const phantom = require('phantom');
-var request = require('request');
+const createCsvWriter = require('csv-writer').createArrayCsvWriter;
 
 
+//create a csv file
+const csvWriter = createCsvWriter({
+    header: ['NAME', 'LANGUAGE'],
+    path: './file.csv'
+});
+
+//read urls from file
 const urlList = fs.readFileSync('./urls.json', 'utf8');
-//console.log(urlList.urls);
 const urls = JSON.parse(urlList).urls;
 console.log(urls);
-let i = 0;
 
-while(urls[i]){
-    console.log(urls[i]);
-    i++;
-}
+//open each url in a phantom browser 
+//create and array with 2 dimentions 
+//1. the url
+//2. the request dat
+//fill the array
+var urlToRequestsArray = [];
 
 
 (async function() {
 const instance = await phantom.create();
 const page = await instance.createPage();
 await page.on('onResourceRequested' , function(requestedData){
-    console.info('Requesting', requestedData);
+    urlToRequestsArray.push([url, `Request (#${requestedData.id}): ${JSON.stringify(requestedData.url)}`]);
 });
-let status, content;
-while(urls[i]){
-    console.info(urls[i]);
-    status = await page.open(urls[i]);
-    content = await page.property('content');
-    console.log(content);
-    i++;
-}
-await instance.exit();
+
+//going over the urls fetching the requested data and writing it in an array
+let status, content, url;
+
+for(url of urls){
+    console.info(url);
+    status = await page.open(url);
+};  
+instance.exit();
+
+csvWriter.writeRecords(urlToRequestsArray)       
+    .then(() => {
+        console.log('...Done');
+    })
+    .catch(function(err) {
+        console.log(err);
+    } );
 })();
 
 
+
+
+    
 /*
 
 var test = function( counter , callback){
