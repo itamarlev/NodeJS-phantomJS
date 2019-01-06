@@ -1,20 +1,23 @@
 {
   "name": "nodejs-phantomjs",
   "version": "1.0.0",
-  "description": "",
+  "description": "A simple example of using the phantom api. the program opens a phantom webpage for all the urls listed in urls.json and using csv-writer to write all the related resources requested by each url.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/itamarlev/NodeJS-phantomJS.git"
+  },
   "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/itamarlev/NodeJS-phantomJS/issues"
+  },
+  "homepage": "https://github.com/itamarlev/NodeJS-phantomJS#readme",
   "dependencies": {
-    "csv-writer": "^1.2.0",
-    "es6-promise": "^4.2.5",
-    "isomorphic-fetch": "^2.2.1",
-    "phantom": "^6.0.3",
-    "phantomjs": "^2.1.7",
-    "request": "^2.88.0",
-    "underscore": "^1.9.1"
+    "lodash": "^4.17.11",
+    "yargs": "^12.0.5"
   }
 }
